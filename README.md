@@ -1,18 +1,24 @@
-# TypeScript 2 + Express + Node.js
+# TypeScript 4 + Express + Node.js
 
-This is a repository to go with my article on creating an Express web application using TypeScript 2.
+This is a repository to go with my article on creating an Express web application using TypeScript 4.
 
 ## Install
 
 Install the node packages via:
 
-`$ npm install`
+`$ yarn install`
+
+## Developing
+
+To developing the server run:
+
+`$ npm run dev`
+
+## Publish
 
 And then run the grunt task to compile the TypeScript:
 
-`$ npm run grunt`
-
-## Starting
+`$ npm run build`
 
 To start the server run:
 
