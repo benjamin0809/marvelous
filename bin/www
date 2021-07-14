@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-console.log(process.env)
+console.log(process.env.NODE_ENV)
 
 //module dependencies
 var server = process.env.NODE_ENV == 'development' ? require("../src/server") : require("../dist/server");
@@ -13,6 +13,26 @@ var httpPort = normalizePort(process.env.PORT || 8080);
 var app = server.Server.bootstrap().app;
 app.set("port", httpPort);
 var httpServer = http.createServer(app);
+
+const io = require('socket.io')(httpServer, {
+  path:'/chat', 
+  serveClient: true,
+  // below are engine.IO options
+  pingInterval: 10000,
+  pingTimeout: 5000,
+  cookie: false
+});
+io.on('connection', client => { 
+  client.on('event', data => { /* … */ });
+  client.on('disconnect', () => { /* … */ });
+  // 监听客户端发送的信息
+  client.on("sentToServer", message => {
+    console.log(client.id)
+    console.log('reveice message')
+    // 给客户端返回信息
+    io.emit("sendToClient", {message,userid: client.id});
+});
+});
 
 //listen on provided ports
 httpServer.listen(httpPort);
